@@ -1,15 +1,6 @@
--- Keymaps are automatically loaded on the VeryLazy event
--- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
--- Add any additional keymaps here
---
-
 local map = vim.keymap.set
 
 map("n", "<leader>e", vim.cmd.Ex)
-
-map("n", "<leader>ff", "<cmd>Telescope find_files<cr>")
-map("n", "<leader>fg", "<cmd>Telescope live_grep<cr>")
-
 
 map("n", "<A-j>", "<cmd>m .+1<cr>==")
 map("n", "<A-k>", "<cmd>m .-2<cr>==")
