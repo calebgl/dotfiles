@@ -77,6 +77,37 @@ return {
       })
 
       lsp.setup()
+
+      local util = require("lspconfig.util")
+      local custom_config = require("lspconfig.configs")
+
+      custom_config.dartls = {
+        default_config = {
+          cmd = { 'dart', 'language-server', '--protocol=lsp' },
+          filetypes = { 'dart' },
+          root_dir = util.root_pattern('pubspec.yaml'),
+          init_options = {
+            onlyAnalyzeProjectsWithOpenFiles = true,
+            suggestFromUnimportedLibraries = true,
+            closingLabels = true,
+            outline = true,
+            flutterOutline = true,
+          },
+          settings = {
+            dart = {
+              completeFunctionCalls = true,
+              showTodos = true,
+            },
+          },
+        },
+        docs = {
+          default_config = {
+            root_dir = [[root_pattern("pubspec.yaml")]],
+          },
+        },
+      }
+
+      require('lspconfig').dartls.setup({})
     end
   },
 
