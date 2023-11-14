@@ -1,5 +1,5 @@
 ```bash
-stow . --ignore='README.md|{ignore_path}'
+stow */
 ```
 
 ```bash
