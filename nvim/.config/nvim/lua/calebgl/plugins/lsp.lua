@@ -1,4 +1,7 @@
 local servers = {
+	gopls = {
+		gofumpt = true,
+	},
 	pyright = {},
 	lua_ls = {
 		Lua = {
