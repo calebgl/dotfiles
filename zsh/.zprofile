@@ -6,6 +6,7 @@ export XDG_CONFIG_HOME="$HOME/.config"
 
 export GDK_BACKEND="wayland"
 export SDL_VIDEODRIVER="wayland"
+export GPG_TTY=$(tty)
 
 export GOPATH="$HOME/.go"
 export PNPM_HOME="$HOME/.local/share/pnpm"
