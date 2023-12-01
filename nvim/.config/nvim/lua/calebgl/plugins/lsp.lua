@@ -11,6 +11,8 @@ local servers = {
 			diagnostics = { globals = { "vim" } },
 		},
 	},
+	tsserver = {},
+	astro = {},
 }
 
 return {
