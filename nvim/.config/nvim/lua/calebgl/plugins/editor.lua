@@ -73,4 +73,24 @@ return {
 			{ "<leader>gs", "<cmd>Git<cr>" },
 		},
 	},
+
+	{
+		"lewis6991/gitsigns.nvim",
+		opts = {
+			signs = {
+				add = { text = "▎" },
+				change = { text = "▎" },
+				delete = { text = "" },
+				topdelete = { text = "" },
+				changedelete = { text = "▎" },
+				untracked = { text = "▎" },
+			},
+		},
+		config = function(_, opts)
+			require("gitsigns").setup(opts)
+			vim.cmd.highlight("GitSignsAdd guibg=NONE")
+			vim.cmd.highlight("GitSignsChange guibg=NONE")
+			vim.cmd.highlight("GitSignsDelete guibg=NONE")
+		end,
+	},
 }
