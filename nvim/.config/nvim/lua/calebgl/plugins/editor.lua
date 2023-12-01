@@ -6,6 +6,19 @@ return {
 			"nvim-lua/plenary.nvim",
 		},
 		opts = {
+			defaults = {
+				vimgrep_arguments = {
+					"rg",
+					"--color=never",
+					"--no-heading",
+					"--with-filename",
+					"--line-number",
+					"--column",
+					"--smart-case",
+					"--hidden",
+					"-u",
+				},
+			},
 			pickers = {
 				buffers = {
 					mappings = {
@@ -21,9 +34,9 @@ return {
 		},
 		keys = {
 			{ "<leader>ff", "<cmd>Telescope find_files<cr>" },
-			{ "<leader>fh", "<cmd>Telescope find_files hidden=true no_ignore=true<cr>" },
+			{ "<leader>fh", "<cmd>Telescope find_files<cr>" },
 			{ "<leader>fs", "<cmd>Telescope live_grep<cr>" },
-			{ "<leader>fb", "<cmd>Telescope buffers sort_mru=true sort_lastused=true<cr>" },
+			{ "<leader>fb", "<cmd>Telescope buffers<cr>" },
 			{ "<leader>fi", "<cmd>Telescope current_buffer_fuzzy_find<cr>" },
 			{ "<leader>f:", "<cmd>Telescope command_history<cr>" },
 		},
