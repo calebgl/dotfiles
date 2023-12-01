@@ -10,6 +10,7 @@ export GPG_TTY=$(tty)
 
 export GOPATH="$HOME/.go"
 export PNPM_HOME="$HOME/.local/share/pnpm"
+export BUN_INSTALL="$HOME/.bun"
 
 export PATH="$PATH:/usr/local/bin"
 export PATH="$PATH:$HOME/bin"
@@ -20,5 +21,8 @@ export PATH="$PATH:$GOBIN"
 export PATH="$PATH:$PNPM_HOME"
 export PATH="$PATH:$HOME/.emacs.d/bin"
 export PATH="$PATH:$HOME/.config/emacs/bin"
+export PATH="$PATH:$BUN_INSTALL/bin"
 
 . "$HOME/.cargo/env"
+. "$HOME/.bun/_bun"
+
