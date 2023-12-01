@@ -39,4 +39,13 @@ return {
 			{ "<c-l>", "<cmd>TmuxNavigateRight<cr>" },
 		},
 	},
+
+	{
+		"stevearc/oil.nvim",
+        lazy = false,
+		opts = {},
+		keys = {
+			{ "<leader>e", "<cmd>Oil<cr>" },
+		},
+	},
 }
