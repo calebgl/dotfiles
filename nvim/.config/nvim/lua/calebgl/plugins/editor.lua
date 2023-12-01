@@ -65,4 +65,11 @@ return {
 			{ "<leader>e", "<cmd>Oil<cr>" },
 		},
 	},
+
+	{
+		"tpope/vim-fugitive",
+		keys = {
+			{ "<leader>gs", "<cmd>Git<cr>" },
+		},
+	},
 }
