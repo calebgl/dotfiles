@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 directories=(
+    bin
     btop
     hypr
     nvim
