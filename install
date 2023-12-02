@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+directories=(
+    btop
+    hypr
+    nvim
+    personal
+    tmux
+    wezterm
+    zsh
+)
+
+for dir in "${directories[@]}"; do
+    echo "Stowing $dir..."
+    stow "$dir" -t "$HOME"
+done
+
+echo "Stowing finished"

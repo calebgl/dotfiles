@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+directories=(
+    btop
+    hypr
+    nvim
+    personal
+    tmux
+    wezterm
+    zsh
+)
+
+for dir in "${directories[@]}"; do
+    echo "Unstowing $dir..."
+    stow -D "$dir" -t "$HOME"
+done
+
+echo "Unstowing finished"
