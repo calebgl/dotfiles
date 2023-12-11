@@ -8,8 +8,11 @@ return {
 				lua = { "stylua" },
 				python = { "isort", "black" },
 				go = { "golines", "gofumpt", "goimports" },
-				-- Use a sub-list to run only the first available formatter
-				-- javascript = { { "prettierd", "prettier" } },
+				javascript = { "prettier" },
+				typescript = { "prettier" },
+				javascriptreact = { "prettier" },
+				typescriptreact = { "prettier" },
+				css = { "prettier" },
 			},
 		},
 		keys = {
