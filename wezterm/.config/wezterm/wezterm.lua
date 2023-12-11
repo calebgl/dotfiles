@@ -6,6 +6,7 @@ if wezterm.config_builder then
 end
 
 config.font = wezterm.font("Noto Sans Mono")
+config.font_size = 18
 config.color_scheme = "rose-pine"
 config.window_background_opacity = 0.8
 config.window_padding = {
