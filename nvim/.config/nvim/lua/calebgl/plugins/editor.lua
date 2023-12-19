@@ -49,11 +49,11 @@ return {
 			{ "<leader>fi", "<cmd>Telescope current_buffer_fuzzy_find<cr>" },
 			{ "<leader>f:", "<cmd>Telescope command_history<cr>" },
 		},
-        config = function (_, opts)
-            local telescope = require("telescope")
-            telescope.setup(opts)
-            pcall(telescope.load_extension, 'fzf')
-        end
+		config = function(_, opts)
+			local telescope = require("telescope")
+			telescope.setup(opts)
+			pcall(telescope.load_extension, "fzf")
+		end,
 	},
 
 	{
@@ -64,19 +64,6 @@ return {
 			{ "<c-j>", "<cmd>TmuxNavigateDown<cr>" },
 			{ "<c-k>", "<cmd>TmuxNavigateUp<cr>" },
 			{ "<c-l>", "<cmd>TmuxNavigateRight<cr>" },
-		},
-	},
-
-	{
-		"stevearc/oil.nvim",
-		lazy = false,
-		opts = {
-			view_options = {
-				show_hidden = true,
-			},
-		},
-		keys = {
-			{ "<leader>e", "<cmd>Oil<cr>" },
 		},
 	},
 
