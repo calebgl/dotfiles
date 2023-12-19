@@ -1,6 +1,6 @@
 local keymap = vim.keymap
 
--- keymap.set("n", "<leader>e", vim.cmd.Ex)
+keymap.set("n", "<leader>e", vim.cmd.Ex)
 
 keymap.set("n", "<A-j>", "<cmd>m .+1<cr>==")
 keymap.set("n", "<A-k>", "<cmd>m .-2<cr>==")
