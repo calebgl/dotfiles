@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 directories=(
+    assets
     bin
     btop
     hypr
