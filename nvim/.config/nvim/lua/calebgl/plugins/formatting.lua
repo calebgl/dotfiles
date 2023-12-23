@@ -13,6 +13,7 @@ return {
 				javascriptreact = { "prettier" },
 				typescriptreact = { "prettier" },
 				css = { "prettier" },
+				yaml = { "prettier" },
 			},
 		},
 		keys = {
