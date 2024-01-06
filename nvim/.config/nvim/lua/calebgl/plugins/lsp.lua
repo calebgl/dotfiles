@@ -1,78 +1,89 @@
 local servers = {
-	gopls = {
-		gofumpt = true,
-	},
-	pyright = {},
-	lua_ls = {
-		Lua = {
-			semantic = { enable = false },
-			workspace = { checkThirdParty = false },
-			telemetry = { enable = false },
-			diagnostics = { globals = { "vim" } },
-		},
-	},
-	tsserver = {},
-	astro = {},
+    gopls = {},
+    pyright = {},
+    lua_ls = {
+        Lua = {
+            telemetry = { enable = false },
+            diagnostics = {
+                globals = { "vim" },
+            },
+        },
+    },
+    tsserver = {},
+    astro = {},
+    svelte = {},
+    -- tailwindcss = {}
 }
 
 return {
-	{
-		"neovim/nvim-lspconfig",
-		dependencies = {
-			"williamboman/mason.nvim",
-			"williamboman/mason-lspconfig.nvim",
-			{ "j-hui/fidget.nvim", tag = "legacy", opts = {} },
-			"folke/neodev.nvim",
-		},
-		config = function()
-			local keymap = vim.keymap
-			local on_attach = function(_, bufnr)
-				-- client.server_capabilities.semanticTokensProvider = nil
+    "neovim/nvim-lspconfig",
+    dependencies = {
+        "williamboman/mason.nvim",
+        "williamboman/mason-lspconfig.nvim",
 
-				local opts = { buffer = bufnr, noremap = true, silent = true }
+        "hrsh7th/cmp-nvim-lsp",
+        "hrsh7th/cmp-buffer",
+        "hrsh7th/cmp-path",
+        "hrsh7th/cmp-cmdline",
+        "hrsh7th/nvim-cmp",
 
-				keymap.set("n", "gR", "<cmd>Telescope lsp_references<cr>", opts)
-				keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-				keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<cr>", opts)
-				keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<cr>", opts)
-				keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<cr>", opts)
-				keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
-				keymap.set("n", "<leader>lr", vim.lsp.buf.rename, opts)
-				keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<cr>", opts)
-				keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts)
-				keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
-				keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
-				keymap.set("n", "K", vim.lsp.buf.hover, opts)
-				keymap.set("n", "<leader>rs", "<cmd>LspRestart<cr>", opts)
-				keymap.set("n", "<leader>lf", vim.lsp.buf.format, opts)
-			end
+        "L3MON4D3/LuaSnip",
+        "saadparwaiz1/cmp_luasnip",
 
-			local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
-			for type, icon in pairs(signs) do
-				local hl = "DiagnosticSign" .. type
-				vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-			end
+        "j-hui/fidget.nvim",
+        "folke/neodev.nvim",
+    },
+    config = function()
+        require("fidget").setup()
+        require("mason").setup()
+        require("mason-lspconfig").setup({
+            ensure_installed = vim.tbl_keys(servers),
+        })
 
-			local capabilities = vim.lsp.protocol.make_client_capabilities()
-			capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+        local cmp = require("cmp")
+        cmp.setup({
+            snippet = {
+                expand = function(args)
+                    require("luasnip").lsp_expand(args.body)
+                end,
+            },
+            mapping = cmp.mapping.preset.insert({
+                ["<C-p>"] = cmp.mapping.select_prev_item(),
+                ["<C-n>"] = cmp.mapping.select_next_item(),
+                ["<C-u>"] = cmp.mapping.scroll_docs(-4),
+                ["<C-d>"] = cmp.mapping.scroll_docs(4),
+                ["<C-Space>"] = cmp.mapping.complete(),
+                ["<C-e>"] = cmp.mapping.abort(),
+                ["<C-y>"] = cmp.mapping.confirm({ select = true }),
+            }),
+            sources = cmp.config.sources({
+                { name = "nvim_lsp" },
+                { name = "luasnip" },
+            }, {
+                { name = "buffer" },
+            }),
+        })
 
-			require("mason").setup()
-			local mason_lspconfig = require("mason-lspconfig")
+        local capabilities = require("cmp_nvim_lsp").default_capabilities()
+        require("mason-lspconfig").setup_handlers({
+            function(server_name)
+                require("lspconfig")[server_name].setup({
+                    capabilities = capabilities,
+                    settings = servers[server_name],
+                    filetypes = (servers[server_name] or {}).filetypes,
+                })
+            end,
+        })
 
-			mason_lspconfig.setup({
-				ensure_installed = vim.tbl_keys(servers),
-			})
-
-			mason_lspconfig.setup_handlers({
-				function(server_name)
-					require("lspconfig")[server_name].setup({
-						capabilities = capabilities,
-						on_attach = on_attach,
-						settings = servers[server_name],
-						filetypes = (servers[server_name] or {}).filetypes,
-					})
-				end,
-			})
-		end,
-	},
+        vim.diagnostic.config({
+            update_in_insert = true,
+            float = {
+                focusable = true,
+                style = "minimal",
+                source = "always",
+                header = "",
+                prefix = "",
+            },
+        })
+    end,
 }
