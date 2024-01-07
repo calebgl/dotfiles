@@ -14,20 +14,6 @@ return {
 			},
 		},
 		opts = {
-			defaults = {
-				vimgrep_arguments = {
-					"rg",
-					"--color=never",
-					"--no-heading",
-					"--with-filename",
-					"--line-number",
-					"--column",
-					"--smart-case",
-					"--hidden",
-					"--glob=!.git/",
-					"-u",
-				},
-			},
 			pickers = {
 				buffers = {
 					mappings = {
@@ -75,22 +61,6 @@ return {
 	},
 
 	{
-		"lewis6991/gitsigns.nvim",
-		opts = {
-			signs = {
-				add = { text = "▎" },
-				change = { text = "▎" },
-				delete = { text = "" },
-				topdelete = { text = "" },
-				changedelete = { text = "▎" },
-				untracked = { text = "▎" },
-			},
-		},
-		config = function(_, opts)
-			require("gitsigns").setup(opts)
-			vim.cmd.highlight("GitSignsAdd guibg=NONE")
-			vim.cmd.highlight("GitSignsChange guibg=NONE")
-			vim.cmd.highlight("GitSignsDelete guibg=NONE")
-		end,
+		"tpope/vim-sleuth"
 	},
 }
