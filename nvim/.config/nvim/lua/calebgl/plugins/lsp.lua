@@ -12,7 +12,7 @@ local servers = {
     tsserver = {},
     astro = {},
     svelte = {},
-    -- tailwindcss = {}
+    tailwindcss = {}
 }
 
 return {
@@ -34,6 +34,7 @@ return {
         "folke/neodev.nvim",
     },
     config = function()
+        require("neodev").setup()
         require("fidget").setup()
         require("mason").setup()
         require("mason-lspconfig").setup({
