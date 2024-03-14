@@ -1,0 +1,5 @@
+default_roles:
+  - nvim
+  # - fzf
+  #  - tmux
+  # - zellij
