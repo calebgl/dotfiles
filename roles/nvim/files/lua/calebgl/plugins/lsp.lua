@@ -18,10 +18,12 @@ return {
 		"williamboman/mason.nvim",
 		"williamboman/mason-lspconfig.nvim",
 
+		"folke/neodev.nvim",
 		{ "j-hui/fidget.nvim", opts = {} },
-		{ "folke/neodev.nvim", opts = {} },
 	},
 	config = function()
+		require("neodev").setup()
+
 		vim.api.nvim_create_autocmd("LspAttach", {
 			group = vim.api.nvim_create_augroup("CalebGL_LspConfig", { clear = true }),
 			callback = function(event)
