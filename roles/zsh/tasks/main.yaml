@@ -25,7 +25,7 @@
   register: oh_my_stats
 
 - name: "Zsh | Install oh-my-zsh"
-  ansible.builtin.cmd:
+  ansible.builtin.command:
     cmd: "curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh > ~/.oh-my-installer && chmod +x ~/.oh-my-installer && ~/.oh-my-installer"
   when: not oh_my_stats.stat.exists
   become: true
