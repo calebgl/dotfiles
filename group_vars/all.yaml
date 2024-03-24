@@ -1,5 +1,6 @@
 default_roles:
   - bat
+  - docker
   - nvim
   - fzf
   - tmux
