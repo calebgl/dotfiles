@@ -1,0 +1,22 @@
+---
+- name: "docker | install docker and docker-compose"
+  ansible.builtin.package:
+    name:
+      - "docker"
+      - "docker-compose"
+    state: "latest"
+  become: true
+
+- name: "docker | enable service"
+  ansible.builtin.systemd:
+    enabled: true
+    name: "docker"
+    state: "started"
+  become: true
+
+- name: "docker | add user to group"
+  ansible.builtin.user:
+    append: true
+    groups: "docker"
+    name: "{{ host_user }}"
+  become: true
