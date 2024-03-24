@@ -1,6 +1,0 @@
----
-- name: "Nvim | Install nvim"
-  community.general.pacman:
-    name: neovim
-    state: present
-  become: true

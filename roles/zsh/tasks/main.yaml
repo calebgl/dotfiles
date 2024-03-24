@@ -1,31 +1,50 @@
 ---
-- name: "Zsh | Checking for distribution config: {{ ansible_distribution }}"
-  ansible.builtin.stat:
-    path: "{{ role_path }}/tasks/{{ ansible_distribution }}.yaml"
-  register: zsh_distribution_config
+- name: "zsh | install zsh"
+  ansible.builtin.package:
+    name: "zsh"
+    state: "present"
+  become: true
 
-- name: "Zsh | Run tasks: {{ ansible_distribution }}"
-  ansible.builtin.include_tasks: "{{ ansible_distribution }}.yaml"
-  when: zsh_distribution_config.stat.exists
-
-- name: "Zsh | Configure zsh"
-  ansible.builtin.copy:
-    src: zsh/*
-    dest: "{{ ansible_user_dir }}/"
-    mode: "0644"
-    force: true
-
-- name: "Zsh | Change shell to zsh"
-  ansible.builtin.command:
-    cmd: chsh -s $(which zsh)
-
-- name: "Zsh | Check if oh-my-zsh exists"
+- name: "zsh | check for existing oh-my-zsh"
   ansible.builtin.stat:
     path: "{{ ansible_user_dir }}/.oh-my-zsh"
-  register: oh_my_stats
+  register: install
 
-- name: "Zsh | Install oh-my-zsh"
+- name: "zsh | download oh-my-zsh"
+  ansible.builtin.get_url:
+    dest: /tmp/zsh-install.sh
+    mode: "0755"
+    url: https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+  when: not install.stat.exists
+
+- name: "zsh | install oh-my-zsh"
+  ansible.builtin.shell: /tmp/zsh-install.sh
+  when: not install.stat.exists
+
+- name: "zsh | remove oh-my-zsh installer"
+  ansible.builtin.file:
+    path: /tmp/zsh-install.sh
+    state: absent
+
+- name: "zsh | remove oh-my-zsh default config"
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/{{ item }}"
+    state: "absent"
+  loop:
+    - ".zshrc"
+    - ".zshrc.pre-oh-my-zsh"
+
+- name: "zsh | symlink config"
+  ansible.builtin.file:
+    src: "{{ role_path }}/files/{{ item }}"
+    dest: "{{ ansible_user_dir }}/{{ item }}"
+    mode: "0644"
+    state: "link"
+  loop:
+    - ".zshrc"
+    - ".zprofile"
+
+- name: "zsh | change shell to zsh"
   ansible.builtin.command:
-    cmd: "curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh > ~/.oh-my-installer && chmod +x ~/.oh-my-installer && ~/.oh-my-installer"
-  when: not oh_my_stats.stat.exists
+    cmd: "chsh -s /bin/zsh {{ host_user }}"
   become: true
