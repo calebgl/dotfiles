@@ -3,6 +3,7 @@ default_roles:
   - docker
   - nvim
   - fzf
+  - rg
   - tmux
   - zsh
   - go
