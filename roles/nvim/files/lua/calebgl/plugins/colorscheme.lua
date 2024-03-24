@@ -1,15 +1,16 @@
 return {
 	{
-		"rose-pine/neovim",
-		priority = 1000,
-		opts = {
-			disable_background = true,
-			disable_float_background = true,
-			disable_italics = true,
-		},
-		config = function(_, opts)
-			require("rose-pine").setup(opts)
-			vim.cmd.colorscheme("rose-pine")
+		"shaunsingh/nord.nvim",
+		config = function()
+			vim.g.nord_contrast = true
+			vim.g.nord_borders = false
+			vim.g.nord_disable_background = false
+			vim.g.nord_uniform_diff_background = true
+			-- vim.g.nord_italic = false
+			-- vim.g.nord_bold = false
+			--
+			require("nord").set()
+			vim.cmd.colorscheme("nord")
 		end,
 	},
 }
