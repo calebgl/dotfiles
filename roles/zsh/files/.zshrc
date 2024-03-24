@@ -14,4 +14,4 @@ source $ZSH/oh-my-zsh.sh
 
 bindkey -v
 
-alias cat="bat"
+alias cat="bat -p"
