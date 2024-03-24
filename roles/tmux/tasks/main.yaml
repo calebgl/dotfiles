@@ -1,34 +1,37 @@
 ---
-- name: "Tmux | Checking for distribution config: {{ ansible_distribution }}"
-  ansible.builtin.stat:
-    path: "{{ role_path }}/tasks/{{ ansible_distribution }}.yaml"
-  register: tmux_distribution_config
+- name: "tmux | install tmux"
+  ansible.builtin.package:
+    name: tmux
+    state: present
+  become: true
 
-- name: "Tmux | Run tasks: {{ ansible_distribution }}"
-  ansible.builtin.include_tasks: "{{ ansible_distribution }}.yaml"
-  when: tmux_distribution_config.stat.exists
+- name: "tmux | ensure ~/.config/tmux directory exists"
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/.config/tmux"
+    state: directory
+    mode: "0700"
 
-- name: "Tmux | Configure tmux"
-  ansible.builtin.copy:
-    src: tmux
-    dest: "{{ ansible_user_dir }}/.config/"
-    mode: "0644"
-    directory_mode: "0755"
+- name: "tmux | symlink config"
+  ansible.builtin.file:
+    src: "{{ role_path }}/files/tmux"
+    dest: "{{ ansible_user_dir }}/.config/tmux"
+    state: link
     force: true
 
-- name: "Tmux | Install tpm"
+- name: "tmux | install tpm"
   ansible.builtin.git:
     repo: https://github.com/tmux-plugins/tpm
     dest: "{{ ansible_user_dir }}/.config/tmux/plugins/tpm"
 
-- name: "Tmux | Ensure {{ ansible_user_dir }}/.local/bin directory exists"
+- name: "tmux | ensure ~/.local/bin directory exists"
   ansible.builtin.file:
     path: "{{ ansible_user_dir }}/.local/bin"
     state: directory
     mode: "0700"
 
-- name: "Tmux | Configure tmux-sessionizer"
+- name: "tmux | copy tmux-sessionizer"
   ansible.builtin.copy:
     src: "tmux-sessionizer"
-    dest: "{{ ansible_user_dir }}/.local/bin" 
+    dest: "{{ ansible_user_dir }}/.local/bin"
     mode: "0711"
+

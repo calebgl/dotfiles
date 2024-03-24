@@ -77,22 +77,6 @@ function _task_done {
   TASK=""
 }
 
-function debian_setup() {
-  if ! dpkg -s python3 >/dev/null 2>&1; then
-    _task "Installing python"
-    _cmd "sudo apt-get install -y python3"
-  fi
-  if ! dpkg -s ansible >/dev/null 2>&1; then
-    _task "Installing ansible"
-    _cmd "sudo apt-get update"
-    _cmd "sudo apt-get install -y software-properties-common"
-    _cmd "sudo apt-get install -y python3-watchdog python3-launchpadlib"
-    _cmd "sudo apt-add-repository -y ppa:ansible/ansible"
-    _cmd "sudo apt-get update"
-    _cmd "sudo apt-get install -y ansible"
-  fi
-}
-
 function arch_setup() {
   if ! pacman -Q python3 >/dev/null 2>&1; then
     _task "Installing python"
@@ -126,12 +110,6 @@ update_ansible_galaxy() {
 source /etc/os-release
 _task "Loading setup for detected os: $ID"
 case $ID in
-  debian)
-    debian_setup
-    ;;
-  ubuntu)
-    debian_setup
-    ;;
   arch)
     arch_setup
     ;;
@@ -150,6 +128,7 @@ if ! [[ -f "$SSH_DIR/authorized_keys" ]]; then
   _cmd "cat $SSH_DIR/id_rsa.pub >> $SSH_DIR/authorized_keys"
 fi
 
+#  TODO: move to main branch
 if ! [[ -d "$DOTFILES_DIR" ]]; then
   _task "Cloning repository"
   _cmd "git clone --quiet https://github.com/calebgl/dotfiles.git $DOTFILES_DIR -b ansible"
