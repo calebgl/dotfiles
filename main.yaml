@@ -4,23 +4,6 @@
   connection: local
 
   pre_tasks:
-    - name: Detect WSL
-      ansible.builtin.import_tasks: pre_tasks/detect_wsl.yaml
-      tags:
-        - always
-
-    - name: Detect WSL
-      ansible.builtin.debug:
-        var: ansible_host_environment_is_wsl
-      tags:
-        - always
-
-    - name: Detect Host User
-      ansible.builtin.import_tasks: pre_tasks/whoami_wsl.yaml
-      when: not ansible_host_environment_is_wsl
-      tags:
-        - always
-
     - name: Detect Host User
       ansible.builtin.import_tasks: pre_tasks/whoami.yaml
       tags:
