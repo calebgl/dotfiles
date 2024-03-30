@@ -6,11 +6,11 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	group = augroup("HighlightYank"),
 	pattern = "*",
 	callback = function()
-		vim.highlight.on_yank {
+		vim.highlight.on_yank({
 			higroup = "IncSearch",
-			timeout = 100
-		}
-	end
+			timeout = 100,
+		})
+	end,
 })
 
 vim.api.nvim_create_autocmd("FileType", {

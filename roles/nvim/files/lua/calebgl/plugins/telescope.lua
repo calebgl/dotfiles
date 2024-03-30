@@ -15,7 +15,7 @@ return {
 	},
 	config = function()
 		local telescope = require("telescope")
-		telescope.setup {
+		telescope.setup({
 			pickers = {
 				buffers = {
 					mappings = {
@@ -27,8 +27,8 @@ return {
 						},
 					},
 				},
-			},	
-		}
+			},
+		})
 
 		pcall(telescope.load_extension, "fzf")
 
@@ -44,18 +44,18 @@ return {
 		vim.keymap.set("n", "<leader>s.", builtin.oldfiles)
 		vim.keymap.set("n", "<leader><leader>", builtin.buffers)
 
-		vim.keymap.set('n', '<leader>/', function()
-			builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown {
+		vim.keymap.set("n", "<leader>/", function()
+			builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
 				winblend = 10,
 				previewer = false,
-			})
+			}))
 		end)
 
 		vim.keymap.set("n", "<leader>s/", function()
-			builtin.live_grep {
+			builtin.live_grep({
 				grep_on_files = true,
-				propmt_title = "Live Grep in Open Files"
-			}
+				propmt_title = "Live Grep in Open Files",
+			})
 		end)
-	end
+	end,
 }

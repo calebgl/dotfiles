@@ -6,10 +6,10 @@ local servers = {
 				telemetry = { enable = false },
 				diagnostics = {
 					globals = { "vim" },
-				}
-			}
-		}
-	}
+				},
+			},
+		},
+	},
 }
 
 return {
@@ -43,26 +43,26 @@ return {
 				vim.keymap.set("n", "<leader>lf", vim.lsp.buf.format, opts)
 				vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
 				vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-				vim.keymap.set("i", "<c-k>", vim.lsp.buf.signature_help, opts)
-			end
+				vim.keymap.set({ "n", "i" }, "<c-k>", vim.lsp.buf.signature_help, opts)
+			end,
 		})
 
 		local capabilities = vim.lsp.protocol.make_client_capabilities()
-		capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
+		capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
 
 		require("mason").setup()
-		require("mason-lspconfig").setup {
+		require("mason-lspconfig").setup({
 			ensure_installed = vim.tbl_keys(servers),
 			handlers = {
 				function(server_name)
 					local server = servers[server_name] or {}
 					server.capabilities = vim.tbl_deep_extend("force", {}, server.capabilities or {})
 					require("lspconfig")[server_name].setup(server)
-				end
-			}
-		}
+				end,
+			},
+		})
 
-		vim.diagnostic.config {
+		vim.diagnostic.config({
 			update_in_insert = true,
 			float = {
 				focusable = true,
@@ -70,7 +70,7 @@ return {
 				source = true,
 				header = "",
 				prefix = "",
-			}
-		}
-	end
+			},
+		})
+	end,
 }
