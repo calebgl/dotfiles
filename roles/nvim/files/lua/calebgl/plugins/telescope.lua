@@ -33,11 +33,8 @@ return {
 		pcall(telescope.load_extension, "fzf")
 
 		local builtin = require("telescope.builtin")
-		vim.keymap.set("n", "<leader>sh", builtin.help_tags)
-		vim.keymap.set("n", "<leader>sk", builtin.keymaps)
+		vim.keymap.set("n", "<leader>ss", builtin.lsp_document_symbols)
 		vim.keymap.set("n", "<leader>sf", builtin.find_files)
-		vim.keymap.set("n", "<leader>ss", builtin.builtin)
-		vim.keymap.set("n", "<leader>sw", builtin.grep_string)
 		vim.keymap.set("n", "<leader>sg", builtin.live_grep)
 		vim.keymap.set("n", "<leader>sd", builtin.diagnostics)
 		vim.keymap.set("n", "<leader>sr", builtin.resume)
@@ -56,6 +53,16 @@ return {
 				grep_on_files = true,
 				prompt_title = "Live Grep (Open Files)",
 			})
+		end)
+
+		vim.keymap.set("n", "<leader>sw", function()
+			local word = vim.fn.expand("<cword>")
+			builtin.grep_string({ search = word })
+		end)
+
+		vim.keymap.set("n", "<leader>sW", function()
+			local word = vim.fn.expand("<cWORD>")
+			builtin.grep_string({ search = word })
 		end)
 	end,
 }
