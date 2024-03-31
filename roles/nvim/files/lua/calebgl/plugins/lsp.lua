@@ -1,5 +1,13 @@
 local servers = {
 	tsserver = {},
+	gopls = {
+		settings = {
+			gopls = {
+				staticcheck = true,
+				usePlaceholders = true,
+			},
+		},
+	},
 	lua_ls = {
 		settings = {
 			Lua = {
@@ -33,7 +41,7 @@ return {
 			handlers = {
 				function(server_name)
 					local server = servers[server_name] or {}
-					server.capabilities = vim.tbl_deep_extend("force", {}, server.capabilities or {})
+					server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
 					require("lspconfig")[server_name].setup(server)
 				end,
 			},
