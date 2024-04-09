@@ -47,6 +47,27 @@ return {
 			},
 		})
 
+		vim.api.nvim_create_autocmd("LspAttach", {
+			group = vim.api.nvim_create_augroup("CalebGL_LspConfig", { clear = true }),
+			callback = function(event)
+				local opts = { buffer = event.buf }
+
+				vim.keymap.set("n", "gd", require("telescope.builtin").lsp_definitions, opts)
+				vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references, opts)
+				vim.keymap.set("n", "gI", require("telescope.builtin").lsp_implementations, opts)
+				vim.keymap.set("n", "<leader>ld", require("telescope.builtin").lsp_type_definitions, opts)
+				vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+				vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts)
+				vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, opts)
+				vim.keymap.set("n", "<leader>lf", vim.lsp.buf.format, opts)
+				vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
+				vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+				vim.keymap.set({ "n", "i" }, "<c-k>", vim.lsp.buf.signature_help, opts)
+				vim.keymap.set("n", "[d", vim.diagnostic.goto_next, opts)
+				vim.keymap.set("n", "]d", vim.diagnostic.goto_prev, opts)
+			end,
+		})
+
 		vim.diagnostic.config({
 			update_in_insert = true,
 			float = {
