@@ -82,7 +82,7 @@ function arch_setup() {
     _task "Installing python"
     _cmd "sudo pacman -S --noconfirm python"
   fi
-  #  TODO: check for python-launchpadlib
+
   if ! [ -x "$(command -v ansible)" ]; then
     _task "Installing ansible"
     _cmd "sudo pacman -Sy --noconfirm"
