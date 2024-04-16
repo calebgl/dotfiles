@@ -1,2 +1,3 @@
 __pycache__
 tpm
+roles/tmux/files/tmux/plugins
