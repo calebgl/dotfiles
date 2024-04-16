@@ -1,5 +1,6 @@
 default_roles:
   - bat
+  # - btop
   # - docker
   - nvim
   - fzf
