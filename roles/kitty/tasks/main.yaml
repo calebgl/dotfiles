@@ -1,0 +1,19 @@
+---
+- name: "kitty | install kitty"
+  ansible.builtin.package:
+    name: kitty
+    state: present
+  become: true
+
+- name: "kitty | ensure ~/.config/kitty directory exists"
+  ansible.builtin.file:
+    mode: "0700"
+    path: "{{ ansible_user_dir }}/.config/kitty"
+    state: directory
+
+- name: "kitty | symlink config"
+  ansible.builtin.file:
+    src: "{{ role_path }}/files"
+    dest: "{{ ansible_user_dir }}/.config/kitty"
+    state: link
+    force: true

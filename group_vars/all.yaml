@@ -1,12 +1,13 @@
 default_roles:
-  # - bat
+  - bat
   # - btop
   # - docker
-  # - nvim
-  # - fzf
-  - hypr
-  # - lazygit
-  # - rg
-  # - tmux
-  # - zsh
+  - nvim
+  - fzf
+  # - hypr
+  # - kitty
+  - lazygit
+  - rg
+  - tmux
+  - zsh
   # - go
