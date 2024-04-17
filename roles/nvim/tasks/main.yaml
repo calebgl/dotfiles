@@ -5,7 +5,7 @@
     state: present
   become: true
 
-- name: "nivm | ensure ~/.config/nvim directory exists"
+- name: "nvim | ensure ~/.config/nvim directory exists"
   ansible.builtin.file:
     mode: "0700"
     path: "{{ ansible_user_dir }}/.config/nvim"
