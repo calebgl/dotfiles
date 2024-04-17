@@ -1,0 +1,151 @@
+#!/bin/bash
+
+# colors
+RESTORE='\033[0m'
+NC='\033[0m'
+BLACK='\033[00;30m'
+RED='\033[00;31m'
+GREEN='\033[00;32m'
+YELLOW='\033[00;33m'
+BLUE='\033[00;34m'
+PURPLE='\033[00;35m'
+CYAN='\033[00;36m'
+SEA="\\033[38;5;49m"
+LIGHTGRAY='\033[00;37m'
+LBLACK='\033[01;30m'
+LRED='\033[01;31m'
+LGREEN='\033[01;32m'
+LYELLOW='\033[01;33m'
+LBLUE='\033[01;34m'
+LPURPLE='\033[01;35m'
+LCYAN='\033[01;36m'
+WHITE='\033[01;37m'
+OVERWRITE='\e[1A\e[K'
+
+# emojis
+CHECK_MARK="${GREEN}\xE2\x9C\x94${NC}"
+X_MARK="${RED}\xE2\x9C\x96${NC}"
+PIN="${RED}\xF0\x9F\x93\x8C${NC}"
+CLOCK="${GREEN}\xE2\x8C\x9B${NC}"
+ARROW="${SEA}\xE2\x96\xB6${NC}"
+BOOK="${RED}\xF0\x9F\x93\x8B${NC}"
+HOT="${ORANGE}\xF0\x9F\x94\xA5${NC}"
+WARNING="${RED}\xF0\x9F\x9A\xA8${NC}"
+RIGHT_ANGLE="${GREEN}\xE2\x88\x9F${NC}"
+
+set -e
+
+DOTFILES_LOG="$HOME/.dotfiles.log"
+CONFIG_DIR="$HOME/.config/dotfiles"
+VAULT_SECRET="$HOME/.ansible-vault/vault.secret"
+DOTFILES_DIR="$HOME/.dotfiles"
+SSH_DIR="$HOME/.ssh"
+
+function _task {
+  if [[ $TASK != "" ]]; then
+    printf "${OVERWRITE}${LGREEN} [✓]  ${LGREEN}${TASK}\n"
+  fi
+
+  TASK=$1
+  printf "${LBLACK} [ ]  ${TASK} \n${LRED}"
+}
+
+function _cmd {
+  if ! [[ -f $DOTFILES_LOG ]]; then
+    touch $DOTFILES_LOG
+  fi
+
+  > $DOTFILES_LOG
+
+  if eval "$1" 1> /dev/null 2> $DOTFILES_LOG; then
+    return 0
+  fi
+
+  printf "${OVERWRITE}${LRED} [X]  ${TASK}${LRED}\n"
+  while read line; do
+    printf "      ${line}${RESTORE}\n"
+  done < $DOTFILES_LOG
+  printf "\n"
+
+  rm $DOTFILES_LOG
+
+  exit 1
+}
+
+function _task_done {
+  printf "${OVERWRITE}${LGREEN} [✓]  ${LGREEN}${TASK}\n"
+  TASK=""
+}
+
+function arch_setup() {
+  if ! pacman -Q python3 >/dev/null 2>&1; then
+    _task "Installing python"
+    _cmd "sudo pacman -S --noconfirm python"
+  fi
+
+  if ! [ -x "$(command -v ansible)" ]; then
+    _task "Installing ansible"
+    _cmd "sudo pacman -Sy --noconfirm"
+    _cmd "sudo pacman -S --noconfirm python-watchdog"
+    _cmd "sudo pacman -S --noconfirm ansible"
+  fi
+
+  if ! pacman -Q openssh >/dev/null 2>&1; then
+    _task "Installing openssh"
+    _cmd "sudo pacman -S --noconfirm openssh"
+  fi
+}
+
+update_ansible_galaxy() {
+  local os=$1
+  local os_requirements=""
+  _task "Updating ansible galaxy"
+  if [ -f "$DOTFILES_DIR/requirements/$os.yaml" ]; then
+    _task "${OVERWRITE}Updating ansible galaxy with os config: $os"
+    os_requirements="$DOTFILES_DIR/requirements/$os.yaml"
+  fi
+  _cmd "ansible-galaxy install -r $DOTFILES_DIR/requirements/common.yaml $os_requirements"
+}
+
+source /etc/os-release
+_task "Loading setup for detected os: $ID"
+case $ID in
+  arch)
+    arch_setup
+    ;;
+  *)
+    _task "Unsupported os"
+    _cmd "echo 'Unsupported os'"
+    ;;
+esac
+
+#  TODO: implement ssh key in ansible playbook
+if ! [[ -f "$SSH_DIR/authorized_keys" ]]; then
+  _task "Generating ssh keys"
+  _cmd "mkdir -p $SSH_DIR"
+  _cmd "chmod 700 $SSH_DIR"
+  _cmd "ssh-keygen -b 4096 -t rsa -f $SSH_DIR/id_rsa -N '' -C $USER@$HOSTNAME"
+  _cmd "cat $SSH_DIR/id_rsa.pub >> $SSH_DIR/authorized_keys"
+fi
+
+if ! [[ -d "$DOTFILES_DIR" ]]; then
+  _task "Cloning repository"
+  _cmd "git clone --quiet https://github.com/calebgl/dotfiles.git $DOTFILES_DIR"
+else
+  _task "Updating repository"
+  _cmd "git -C $DOTFILES_DIR pull --quiet"
+fi
+
+pushd "$DOTFILES_DIR" 2>&1 > /dev/null
+update_ansible_galaxy $ID
+
+_task "Running playbook"; _task_done
+if [[ -f $VAULT_SECRET ]]; then
+  ansible-playbook --vault-password-file $VAULT_SECRET "$DOTFILES_DIR/main.yaml" "$@" -K
+else
+  ansible-playbook "$DOTFILES_DIR/main.yaml" "$@" -K
+fi
+
+popd 2>&1 > /dev/null
+
+# vi:ft=sh:

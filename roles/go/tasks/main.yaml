@@ -1,0 +1,6 @@
+---
+- name: "go | install go"
+  ansible.builtin.package:
+    name: "go"
+    state: "latest"
+  become: true

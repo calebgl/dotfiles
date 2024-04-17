@@ -1,1 +1,3 @@
-tmux/.config/tmux/plugins
+__pycache__
+tpm
+roles/tmux/files/tmux/plugins

@@ -1,0 +1,37 @@
+---
+- name: "tmux | install tmux"
+  ansible.builtin.package:
+    name: tmux
+    state: present
+  become: true
+
+- name: "tmux | ensure ~/.config/tmux directory exists"
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/.config/tmux"
+    state: directory
+    mode: "0700"
+
+- name: "tmux | symlink config"
+  ansible.builtin.file:
+    src: "{{ role_path }}/files/tmux"
+    dest: "{{ ansible_user_dir }}/.config/tmux"
+    state: link
+    force: true
+
+- name: "tmux | install tpm"
+  ansible.builtin.git:
+    repo: https://github.com/tmux-plugins/tpm
+    dest: "{{ ansible_user_dir }}/.config/tmux/plugins/tpm"
+
+- name: "tmux | ensure ~/.local/bin directory exists"
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/.local/bin"
+    state: directory
+    mode: "0700"
+
+- name: "tmux | copy tmux-sessionizer"
+  ansible.builtin.copy:
+    src: "tmux-sessionizer"
+    dest: "{{ ansible_user_dir }}/.local/bin"
+    mode: "0711"
+

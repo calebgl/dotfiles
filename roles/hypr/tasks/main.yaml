@@ -1,0 +1,38 @@
+---
+- name: "hypr | install hypr"
+  ansible.builtin.package:
+    name: hyprland
+    state: present
+  become: true
+
+- name: "hypr | ensure ~/.config/hypr directory exists"
+  ansible.builtin.file:
+    mode: "0700"
+    path: "{{ ansible_user_dir }}/.config/hypr"
+    state: directory
+
+- name: "hypr | symlink config"
+  ansible.builtin.file:
+    src: "{{ role_path }}/files/conf"
+    dest: "{{ ansible_user_dir }}/.config/hypr"
+    state: link
+    force: true
+
+- name: "hypr | install hyprpaper"
+  ansible.builtin.package:
+    name: hyprpaper
+    state: present
+  become: true
+
+- name: "hypr | ensure ~/.local/share/wallpapers directory exists"
+  ansible.builtin.file:
+    mode: "0700"
+    path: "{{ ansible_user_dir }}/.local/share/wallpapers"
+    state: directory
+
+- name: "hypr | symlink wallpaper"
+  ansible.builtin.file:
+    src: "{{ role_path }}/files/local"
+    dest: "{{ ansible_user_dir }}/.local/share/wallpapers"
+    state: link
+    force: true

@@ -1,6 +1,0 @@
-[submodule "tmux/.config/tmux/plugins/tpm"]
-	path = tmux/.config/tmux/plugins/tpm
-	url = https://github.com/tmux-plugins/tpm
-[submodule "personal"]
-	path = personal
-	url = git@github.com:calebgl/dotfiles-personal.git
