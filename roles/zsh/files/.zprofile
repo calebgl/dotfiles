@@ -15,6 +15,7 @@ export SDL_VIDEODRIVER="wayland"
 export GOPATH="$HOME/.go"
 export PNPM_HOME="$HOME/.local/share/pnpm"
 export BUN_INSTALL="$HOME/.bun"
+export VOLTA_HOME="$HOME/.volta"
 
 export PATH="$PATH:/usr/local/bin"
 export PATH="$PATH:$HOME/bin"
@@ -26,6 +27,7 @@ export PATH="$PATH:$PNPM_HOME"
 export PATH="$PATH:$HOME/.emacs.d/bin"
 export PATH="$PATH:$HOME/.config/emacs/bin"
 export PATH="$PATH:$BUN_INSTALL/bin"
+export PATH="$PATH:$VOLTA_HOME/bin"
 
 
 if [[ -f "$HOME/.cargo/env" ]]; then
