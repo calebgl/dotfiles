@@ -1,5 +1,19 @@
 local servers = {
-	tsserver = {},
+	tsserver = {
+		commands = {
+			OrganizeImports = {
+				function()
+					local params = {
+						command = "_typescript.organizeImports",
+						arguments = { vim.api.nvim_buf_get_name(0) },
+						title = ""
+					}
+					vim.lsp.buf.execute_command(params)
+				end,
+				description = "Organize imports"
+			}
+		}
+	},
 	gopls = {
 		settings = {
 			gopls = {
@@ -69,6 +83,8 @@ return {
 				vim.keymap.set("n", "]d", vim.diagnostic.goto_prev, opts)
 			end,
 		})
+
+		vim.keymap.set("n", "<leader>lo", "<cmd>OrganizeImports<cr>", { remap = true })
 
 		vim.diagnostic.config({
 			update_in_insert = true,
