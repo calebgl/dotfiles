@@ -37,9 +37,9 @@ set -e
 
 DOTFILES_LOG="$HOME/.dotfiles.log"
 CONFIG_DIR="$HOME/.config/dotfiles"
-VAULT_SECRET="$HOME/.ansible-vault/vault.secret"
 DOTFILES_DIR="$HOME/.dotfiles"
 SSH_DIR="$HOME/.ssh"
+VAULT_SECRET="$SSH_DIR/vault"
 
 function _task {
   if [[ $TASK != "" ]]; then
@@ -118,15 +118,6 @@ case $ID in
     _cmd "echo 'Unsupported os'"
     ;;
 esac
-
-#  TODO: implement ssh key in ansible playbook
-if ! [[ -f "$SSH_DIR/authorized_keys" ]]; then
-  _task "Generating ssh keys"
-  _cmd "mkdir -p $SSH_DIR"
-  _cmd "chmod 700 $SSH_DIR"
-  _cmd "ssh-keygen -b 4096 -t rsa -f $SSH_DIR/id_rsa -N '' -C $USER@$HOSTNAME"
-  _cmd "cat $SSH_DIR/id_rsa.pub >> $SSH_DIR/authorized_keys"
-fi
 
 if ! [[ -d "$DOTFILES_DIR" ]]; then
   _task "Cloning repository"
