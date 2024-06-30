@@ -5,35 +5,6 @@
     state: "present"
   become: true
 
-- name: "zsh | check for existing oh-my-zsh"
-  ansible.builtin.stat:
-    path: "{{ ansible_user_dir }}/.oh-my-zsh"
-  register: install
-
-- name: "zsh | download oh-my-zsh"
-  ansible.builtin.get_url:
-    dest: /tmp/zsh-install.sh
-    mode: "0755"
-    url: https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
-  when: not install.stat.exists
-
-- name: "zsh | install oh-my-zsh"
-  ansible.builtin.shell: /tmp/zsh-install.sh
-  when: not install.stat.exists
-
-- name: "zsh | remove oh-my-zsh installer"
-  ansible.builtin.file:
-    path: /tmp/zsh-install.sh
-    state: absent
-
-- name: "zsh | remove oh-my-zsh default config"
-  ansible.builtin.file:
-    path: "{{ ansible_user_dir }}/{{ item }}"
-    state: "absent"
-  loop:
-    - ".zshrc"
-    - ".zshrc.pre-oh-my-zsh"
-
 - name: "zsh | symlink config"
   ansible.builtin.file:
     src: "{{ role_path }}/files/{{ item }}"

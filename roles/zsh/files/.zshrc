@@ -1,7 +1,3 @@
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
 ZINIT_HOME="$HOME/.local/share/zinit/zinit.git"
 
 if [ ! -d "$ZINIT_HOME" ]; then
@@ -11,7 +7,11 @@ fi
 
 source "$ZINIT_HOME/zinit.zsh"
 
-zinit ice depth=1; zinit light romkatv/powerlevel10k
+zinit ice as"command" from"gh-r" \
+          atclone"./starship init zsh > init.zsh; ./starship completions zsh > _starship" \
+          atpull"%atclone" src"init.zsh"
+zinit light starship/starship
+
 zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-autosuggestions
@@ -22,8 +22,6 @@ zinit snippet OMZP::git
 autoload -U compinit && compinit
 
 zinit cdreplay -q
-
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 bindkey -v
 bindkey '^p' history-search-backward
