@@ -41,7 +41,37 @@ return {
 			require("catppuccin").setup({
 				transparent_background = true
 			})
-			vim.cmd.colorscheme("catppuccin")
+			-- vim.cmd.colorscheme("catppuccin")
 		end
-	}
+	},
+
+	{
+		"ellisonleao/gruvbox.nvim",
+		config = function()
+			require("gruvbox").setup({
+				terminal_colors = true,
+				transparent_mode = true,
+			})
+			-- vim.cmd.colorscheme("gruvbox")
+		end
+	},
+
+	-- {
+	-- 	"shaunsingh/nord.nvim",
+	-- 	config = function()
+	-- 		vim.g.nord_disable_background = true
+	-- 		-- require('nord').set()
+	-- 		-- vim.cmd.colorscheme("nord")
+	-- 	end
+	-- },
+
+	{
+		"gbprod/nord.nvim",
+		config = function()
+			require("nord").setup({
+				transparent = true
+			})
+			vim.cmd.colorscheme("nord")
+		end
+	},
 }
