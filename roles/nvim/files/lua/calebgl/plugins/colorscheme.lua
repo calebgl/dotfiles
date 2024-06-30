@@ -11,7 +11,7 @@ return {
 				highlight_groups = {
 					Visual = { bg = "rose", blend = 30 },
 					LspSignatureActiveParameter = { bg = "rose", blend = 30 },
-				}
+				},
 			})
 			-- vim.cmd.colorscheme("rose-pine")
 		end,
@@ -23,14 +23,14 @@ return {
 			require("tokyonight").setup({
 				transparent = true,
 				styles = {
-					floats = "transparent"
+					floats = "transparent",
 				},
 				on_colors = function(colors)
 					colors.bg_float = "NONE"
-				end
+				end,
 			})
 			-- vim.cmd.colorscheme("tokyonight")
-		end
+		end,
 	},
 
 	{
@@ -39,10 +39,10 @@ return {
 		priority = 1000,
 		config = function()
 			require("catppuccin").setup({
-				transparent_background = true
+				transparent_background = true,
 			})
 			-- vim.cmd.colorscheme("catppuccin")
-		end
+		end,
 	},
 
 	{
@@ -53,7 +53,7 @@ return {
 				transparent_mode = true,
 			})
 			-- vim.cmd.colorscheme("gruvbox")
-		end
+		end,
 	},
 
 	-- {
@@ -69,7 +69,7 @@ return {
 		"gbprod/nord.nvim",
 		config = function()
 			require("nord").setup({
-				transparent = true
+				transparent = true,
 			})
 			vim.cmd.colorscheme("nord")
 			vim.api.nvim_set_hl(0, "Normal", { fg = "NONE", bg = "NONE" })

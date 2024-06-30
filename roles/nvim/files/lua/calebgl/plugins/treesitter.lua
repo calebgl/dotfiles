@@ -31,6 +31,6 @@ return {
 				max_lines = 4,
 				separator = "-",
 			})
-		end
-	}
+		end,
+	},
 }

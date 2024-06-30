@@ -1,5 +1,5 @@
 return {
-	'stevearc/oil.nvim',
+	"stevearc/oil.nvim",
 	opts = {},
 	config = function()
 		require("oil").setup({
@@ -14,11 +14,11 @@ return {
 				natural_order = true,
 				sort = {
 					{ "type", "asc" },
-					{ "name", "asc" }
-				}
-			}
+					{ "name", "asc" },
+				},
+			},
 		})
 
 		vim.keymap.set("n", "<leader>e", "<cmd>Oil<cr>")
-	end
+	end,
 }
