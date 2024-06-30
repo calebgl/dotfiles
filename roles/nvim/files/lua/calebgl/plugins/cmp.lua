@@ -3,6 +3,7 @@ return {
 	event = "InsertEnter",
 	dependencies = {
 		"L3MON4D3/LuaSnip",
+		"rafamadriz/friendly-snippets",
 		"saadparwaiz1/cmp_luasnip",
 
 		"hrsh7th/cmp-nvim-lsp",
@@ -13,6 +14,9 @@ return {
 	config = function()
 		local cmp = require("cmp")
 		local luasnip = require("luasnip")
+
+		require("luasnip").filetype_extend("typescript", { "javascript" })
+		require("luasnip.loaders.from_vscode").lazy_load()
 
 		luasnip.config.setup()
 		cmp.setup({
