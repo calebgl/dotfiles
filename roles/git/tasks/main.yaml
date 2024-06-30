@@ -22,6 +22,7 @@
     scope: global
     value: "{{ github_email }}"
   no_log: true
+  ignore_errors: true
 
 - name: "git | user.signinkey"
   community.general.git_config:
@@ -33,7 +34,7 @@
   community.general.git_config:
     name: commit.gpgsign
     scope: global
-    value: true
+    value: "true"
 
 - name: "git | gpg.format"
   community.general.git_config:
@@ -64,3 +65,4 @@
     file: "{{ ansible_user_dir }}/.gitlab"
     value: "{{ gitlab_email }}"
   no_log: true
+  ignore_errors: true
