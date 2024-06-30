@@ -72,6 +72,11 @@ return {
 				transparent = true
 			})
 			vim.cmd.colorscheme("nord")
-		end
+			vim.api.nvim_set_hl(0, "Normal", { fg = "NONE", bg = "NONE" })
+			vim.api.nvim_set_hl(0, "NormalFloat", { fg = "NONE", bg = "NONE" })
+			vim.api.nvim_set_hl(0, "FloatBoder", { fg = "NONE", bg = "NONE" })
+			vim.api.nvim_set_hl(0, "TreesitterContext", { fg = "NONE", bg = "NONE" })
+			vim.api.nvim_set_hl(0, "TreesitterContextSeparator", { fg = "NONE", bg = "NONE" })
+		end,
 	},
 }
