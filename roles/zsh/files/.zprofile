@@ -12,6 +12,7 @@ export FZF_DEFAULT_OPTS='
 export GDK_BACKEND="wayland"
 export SDL_VIDEODRIVER="wayland"
 
+export BEMENU_BACKEND="wayland"
 export GOPATH="$HOME/.go"
 export PNPM_HOME="$HOME/.local/share/pnpm"
 export BUN_INSTALL="$HOME/.bun"
