@@ -3,6 +3,10 @@
 (add-to-list 'warning-suppress-types
 			 '(files missing-lexbind-cookie))
 
+(when (eq system-type 'windows-nt)
+  (setq shell-file-name "pwsh.exe")
+  (setq shell-command-switch "-Command"))
+
 (setq inhibit-startup-message t)
 (setq default-directory "~/")
 (setq user-emacs-directory "~/.config/emacs/")
@@ -14,9 +18,10 @@
 (setq-default word-wrap -1)
 (setq-default column-number-mode 1)
 (setq-default eldoc-mode -1)
+(setq-default fringe-mode -1)
 
-(setq shell-file-name "pwsh.exe")
-(setq shell-command-switch "-Command")
+(setq-default windmove-mode 1)
+(windmove-default-keybindings)
 
 (setopt use-short-answers t)
 
@@ -24,6 +29,8 @@
 (make-directory "~/.local/share/emacs/backups/" t)
 (setq backup-directory-alist '(("." . "~/.local/share/emacs/backups/")))
 (setq auto-save-file-name-transforms '((".*" "~/.local/share/emacs/auto-save/" t)))
+
+(setq dired-listing-switches "-alh")
 
 ;;; c-mode
 (setq-default c-basic-offset 4)
@@ -38,22 +45,20 @@
           (lambda ()
             (setq display-line-numbers 'relative)))
 
-(set-window-fringes nil 0 0)
-
-(setq dired-listing-switches "-alh")
+(set-fontset-font t 'emoji (font-spec :family "Segoe UI Symbol") nil 'prepend)
 
 ;; treesitter
 ;; (setq treesit-language-source-alist
 ;;       '((c "https://github.com/tree-sitter/tree-sitter-c")))
 
-(setq treesit-language-source-alist
-      '((odin "https://github.com/tree-sitter-grammars/tree-sitter-odin")))
+;; (setq treesit-language-source-alist
+;;       '((odin "https://github.com/tree-sitter-grammars/tree-sitter-odin")))
 
-(dolist (lang treesit-language-source-alist)
-  (unless (treesit-language-available-p (car lang))
-    (treesit-install-language-grammar (car lang))))
+;; (dolist (lang treesit-language-source-alist)
+;;   (unless (treesit-language-available-p (car lang))
+;;     (treesit-install-language-grammar (car lang))))
 
-(add-to-list 'major-mode-remap-alist '(c-mode . c-ts-mode))
+;; (add-to-list 'major-mode-remap-alist '(c-mode . c-ts-mode))
 ;; (add-to-list 'major-mode-remap-alist '(odin-mode . odin-ts-mode))
 
  ;; modes
