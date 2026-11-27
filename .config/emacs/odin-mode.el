@@ -225,6 +225,9 @@
     ("---" . font-lock-constant-face)
     ("\\.\\.<" . font-lock-constant-face)
     ("\\.\\." . font-lock-constant-face)
+
+    ;; Enum values
+    (,(concat "\\(?:\\`\\|[^[:word:]_.]\\)\\.\\(" odin-identifier-rx "\\)\\_>") 1 font-lock-constant-face)
     ))
 
 ;; add setq-local for older emacs versions
